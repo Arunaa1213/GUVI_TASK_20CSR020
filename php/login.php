@@ -27,13 +27,31 @@ else{
     if($stmt_result->num_rows >0)
     {
         $data = $stmt_result->fetch_assoc();
-        // $value = $data['upswd1'];
-        // echo '<script>localStorage.setItem("name",$value);</script>';
+        $name = $data['name'];
+        $email = $data['email'];
+        $dob = $data['dob'];
+        $contact = $data['phone'];
+        echo '<script>localStorage.setItem("name",$name);</script>';
+        echo '<script>localStorage.setItem("email",$email);</script>';
+        echo '<script>localStorage.setItem("dob",$dob);</script>';
+        echo '<script>localStorage.setItem("contact",$phone);</script>';
         echo '<script type=\"text/javascript\">console.log("password",$value);</script>';
         if($data['upswd1'] === $password)
         {
         
-            
+            $man = new MongoDB\Driver\Manager("mongodb+srv://arunaa_s:arunaa_s@guvi_task_20csr020.tohgkb0.mongodb.net/?retryWrites=true&w=majority");
+                $col = "guvi_db.users";
+                $localIP = getHostByName(getHostName());
+                $filter = ["_id" => $email];
+                $update = ['$set' => [
+                    "lastlog" => $_POST['time'],
+                    "logout" => $_POST['time1'],
+                    "last_loggedin_ip" => $localIP ]
+                ];
+                $bulk = new MongoDB\Driver\BulkWrite();
+                $bulk->update($filter, $update);
+                $man->executeBulkWrite($col, $bulk);
+
             header("Location: http://localhost:81/GUVI_TASK_20CSR020/profile.html");
             
 

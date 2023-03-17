@@ -9,7 +9,7 @@ header('Access-Control-Allow-Headers: Content-Type');
 $man = new MongoDB\Driver\Manager("mongodb+srv://arunaa_s:arunaa_s@guvi_task_20csr020.tohgkb0.mongodb.net/?retryWrites=true&w=majority");
 
 $query = new MongoDB\Driver\Query(['_id'=>$_POST['email']]);
-$cur = $man->executeQuery("guvi_data.user_data", $query);
+$cur = $man->executeQuery("guvi_db.users", $query);
 
 foreach ($cur as $obj) {
     
